@@ -5,6 +5,10 @@ from ga_tsp_clustering.reading_example_problems.tsp import TSP
 
 
 def read_all_problems():
+    """ Reading all the example problem
+
+    :return: List of tsp problems
+    """
     # Create empty list of tsp problems
     tsp_problems = []
     # Checking all problems in folder
@@ -18,6 +22,11 @@ def read_all_problems():
 
 
 def reading_tsp_files(problem_name):
+    """ Reading and parsing a single tsp file
+
+    :param problem_name: name of the tsp problem
+    :return: TSP objects
+    """
     # Create paths to files
     path_to_problem_file = (
         "ga_tsp_clustering/example_problems/problems/" + problem_name + ".tsp"
@@ -30,6 +39,7 @@ def reading_tsp_files(problem_name):
     file = open(path_to_problem_file, "r")
     # Empty list for cities
     cities = []
+    tsp_name = ""
     for x in file:
         # Reading the problem name
         if x.split()[0] == "NAME":
@@ -38,7 +48,7 @@ def reading_tsp_files(problem_name):
         # Reading all the cities
         elif x[0].isdigit():
             values = x.split()
-            cities.append(City(id=values[0], x=values[1], y=values[2]))
+            cities.append(City(id=values[0], x=float(values[1]), y=float(values[2])))
 
     # Reading the optimal file
     file = open(path_to_solution_file, "r")
