@@ -1,9 +1,11 @@
 import operator
 import random
+
 import numpy as np
 import pandas as pd
 
 from ga_tsp_clustering.genetic_algorithm.fitness import Fitness
+from ga_tsp_clustering.plots.plots import plot_progress
 
 
 def create_route(city_list):
@@ -166,20 +168,28 @@ def next_generation(current_gen, elite_size, mutation_rate):
     return next_generation
 
 
-def genetic_algorithm(population, pop_size, elite_size, mutation_rate, generations):
+def genetic_algorithm(
+    population, pop_size, elite_size, mutation_rate, generations, plot=False
+):
     """ Complete genetic algorithm
     :param population: population
     :param pop_size: size of population
     :param elite_size: size of elite
     :param mutation_rate: rate of mutation
     :param generations: number of generations
+    :param plot: plotting yes/no
     :return: best individual
     """
     pop = initial_population(pop_size, population)
+    progress = []
+    progress.append(1 / rank_routes(pop)[0][1])
 
     for i in range(0, generations):
         pop = next_generation(pop, elite_size, mutation_rate)
+        progress.append(1 / rank_routes(pop)[0][1])
 
+    if plot:
+        plot_progress(progress)
     best_route_index = rank_routes(pop)[0][0]
     best_route = pop[best_route_index]
     return best_route
