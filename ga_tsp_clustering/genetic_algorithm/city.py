@@ -2,7 +2,8 @@ import numpy as np
 
 
 class City:
-    def __init__(self, x, y):
+    def __init__(self, id, x, y):
+        self.id = id
         self.x = x
         self.y = y
 
