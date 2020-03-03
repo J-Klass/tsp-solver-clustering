@@ -4,8 +4,8 @@ import random
 import numpy as np
 import pandas as pd
 
-from ga_tsp_clustering.genetic_algorithm.fitness import Fitness
-from ga_tsp_clustering.plots.plots import plot_progress
+from tsp_solver_clustering.genetic_algorithm.fitness import Fitness
+from tsp_solver_clustering.plots.plots import plot_progress
 
 
 def create_route(city_list):

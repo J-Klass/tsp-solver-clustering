@@ -1,4 +1,4 @@
-from ga_tsp_clustering.genetic_algorithm.genetic_algorithm import genetic_algorithm
+from tsp_solver_clustering.genetic_algorithm.genetic_algorithm import genetic_algorithm
 
 
 def solve_tsp_basic(tsp_problem):

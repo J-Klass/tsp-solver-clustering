@@ -1,7 +1,7 @@
 import os
 
-from ga_tsp_clustering.genetic_algorithm.city import City
-from ga_tsp_clustering.reading_example_problems.tsp import TSP
+from tsp_solver_clustering.genetic_algorithm.city import City
+from tsp_solver_clustering.reading_example_problems.tsp import Tsp
 
 
 def read_all_problems():
@@ -12,7 +12,7 @@ def read_all_problems():
     # Create empty list of tsp problems
     tsp_problems = []
     # Checking all problems in folder
-    directory = "ga_tsp_clustering/example_problems/problems"
+    directory = "tsp_solver_clustering/example_problems/problems"
     files = os.listdir(directory)
     for file in files:
         if not file[0] == ".":
@@ -29,10 +29,10 @@ def reading_tsp_files(problem_name):
     """
     # Create paths to files
     path_to_problem_file = (
-        "ga_tsp_clustering/example_problems/problems/" + problem_name + ".tsp"
+        "tsp_solver_clustering/example_problems/problems/" + problem_name + ".tsp"
     )
     path_to_solution_file = (
-        "ga_tsp_clustering/example_problems/solutions/" + problem_name + ".opt.tour"
+        "tsp_solver_clustering/example_problems/solutions/" + problem_name + ".opt.tour"
     )
 
     # Reading the problem file
@@ -60,4 +60,4 @@ def reading_tsp_files(problem_name):
             best_route.append(values[0])
 
     # Create tsp object
-    return TSP(name=tsp_name, cities=cities, best_route=best_route)
+    return Tsp(name=tsp_name, cities=cities, best_route=best_route)

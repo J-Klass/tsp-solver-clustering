@@ -9,6 +9,7 @@ verify_ssl = true
 pre-commit = "*"
 pandas = "*"
 matplotlib = "*"
+scikit-learn = "*"
 
 [requires]
 python_version = "3.7"

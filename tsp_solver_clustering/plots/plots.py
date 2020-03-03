@@ -1,3 +1,5 @@
+from itertools import cycle
+
 import matplotlib.pyplot as plt
 
 
@@ -54,4 +56,37 @@ def plot_route(route):
     x.append(x[0])
     y.append(y[0])
     plt.plot(x, y)
+    plt.show()
+
+
+def plot_af_clustering_results(X, n_clusters_, labels, cluster_centers_indices):
+    """ Plotting the results of affinity propagation clustering
+
+    :param X: Matrix
+    :param n_clusters_: number of clusters
+    :param labels: cluster label
+    :param cluster_centers_indices: centers
+    :return: none
+    """
+    plt.close("all")
+    plt.figure(1)
+    plt.clf()
+
+    colors = cycle("bgrcmykbgrcmykbgrcmykbgrcmyk")
+    for k, col in zip(range(n_clusters_), colors):
+        class_members = labels == k
+        cluster_center = X[cluster_centers_indices[k]]
+        plt.plot(X[class_members, 0], X[class_members, 1], col + ".")
+        plt.plot(
+            cluster_center[0],
+            cluster_center[1],
+            "o",
+            markerfacecolor=col,
+            markeredgecolor="k",
+            markersize=14,
+        )
+        for x in X[class_members]:
+            plt.plot([cluster_center[0], x[0]], [cluster_center[1], x[1]], col)
+
+    plt.title("Estimated number of clusters: %d" % n_clusters_)
     plt.show()
