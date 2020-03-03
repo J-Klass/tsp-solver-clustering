@@ -10,6 +10,7 @@ pre-commit = "*"
 pandas = "*"
 matplotlib = "*"
 scikit-learn = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.7"
