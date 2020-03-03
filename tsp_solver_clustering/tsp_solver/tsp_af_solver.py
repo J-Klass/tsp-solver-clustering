@@ -8,7 +8,13 @@ from tsp_solver_clustering.plots.plots import plot_af_clustering_results, plot_r
 from tsp_solver_clustering.reading_example_problems.tsp import TspSubproblem
 
 
-def solve_tsp_affinity_propagation(tsp_problem):
+def solve_tsp_affinity_propagation(tsp_problem, plot=False):
+    """ Solves TSP problem using affinity propagation clustering
+
+    :param tsp_problem: Tsp
+    :param plot: Yes/No plotting
+    :return: best route
+    """
     # Convert cities to nd array
     matrix_x = []
     for city in tsp_problem.cities:
@@ -21,7 +27,8 @@ def solve_tsp_affinity_propagation(tsp_problem):
     labels = af.labels_
     n_clusters_ = len(cluster_centers_indices)
     # Plotting the results
-    plot_af_clustering_results(matrix_x, n_clusters_, labels, cluster_centers_indices)
+    if plot:
+        plot_af_clustering_results(matrix_x, n_clusters_, labels, cluster_centers_indices)
 
     # Define the subproblems
     subproblems = []
@@ -38,12 +45,18 @@ def solve_tsp_affinity_propagation(tsp_problem):
         )
 
     # Solve and merge subproblems
-    best_route = solve_and_merge_subproblems_naive(subproblems)
+    best_route = solve_and_merge_subproblems_naive(subproblems, plot)
 
     return best_route
 
 
-def solve_and_merge_subproblems_naive(subproblems):
+def solve_and_merge_subproblems_naive(subproblems, plot):
+    """ Solving and merging the subproblems
+
+    :param subproblems: Subproblem
+    :param plot: yes/no plotting
+    :return: best route
+    """
     # Find the shortest route connecting the centers
     centers = []
     for subproblem in subproblems:
@@ -56,7 +69,8 @@ def solve_and_merge_subproblems_naive(subproblems):
         generations=10,
     )
     # Plotting the best route to connect the centers
-    plot_route(best_route_centers)
+    if plot:
+        plot_route(best_route_centers)
 
     # Find the best solutions in the subproblems and connect them
     best_route = []
