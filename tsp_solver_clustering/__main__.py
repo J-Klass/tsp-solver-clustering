@@ -55,7 +55,9 @@ def run_and_evaluate():
                 "clustering algorithm time": mean(af_times),
             }
         )
+    # Create dataframe and safe results
     df = pd.DataFrame(results)
+    df.to_csv("results.csv", index=False)
     return df
 
 
