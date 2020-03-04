@@ -76,14 +76,17 @@ def solve_and_merge_subproblems_naive(subproblems, plot):
     best_route = []
     for center_city in best_route_centers:
         tsp_subproblem = next((x for x in subproblems if x.center == center_city), None)
-        best_route.extend(
-            genetic_algorithm(
-                population=tsp_subproblem.cities,
-                pop_size=100,
-                elite_size=20,
-                mutation_rate=0.01,
-                generations=30,
+        if not len(tsp_subproblem.cities) == 1:
+            best_route.extend(
+                genetic_algorithm(
+                    population=tsp_subproblem.cities,
+                    pop_size=100,
+                    elite_size=20,
+                    mutation_rate=0.01,
+                    generations=30,
+                )
             )
-        )
+        else:
+            best_route.extend(tsp_subproblem.cities)
 
     return best_route

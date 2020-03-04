@@ -25,7 +25,7 @@ def solve_mean_shift(tsp_problem, plot=False):
     matrix_x = np.array(matrix_x)
 
     # Mean shift clustering
-    bandwidth = estimate_bandwidth(matrix_x)
+    bandwidth = estimate_bandwidth(matrix_x, quantile=0.2, n_samples=500)
     ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
     ms.fit(matrix_x)
 
@@ -42,7 +42,10 @@ def solve_mean_shift(tsp_problem, plot=False):
     subproblems = []
     for i in range(n_clusters_):
         indecies = [a for a, x in enumerate(labels) if x == i]
-        cities_in_subproblem = list(itemgetter(*indecies)(tsp_problem.cities))
+        if len(indecies) == 1:
+            cities_in_subproblem = [tsp_problem.cities[indecies[0]]]
+        else:
+            cities_in_subproblem = list(itemgetter(*indecies)(tsp_problem.cities))
         subproblem_center = City(
             id="center", x=cluster_centers[i][0], y=cluster_centers[i][1]
         )
