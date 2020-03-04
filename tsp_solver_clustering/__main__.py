@@ -10,6 +10,7 @@ from tsp_solver_clustering.reading_example_problems.reading_examples import (
 )
 from tsp_solver_clustering.tsp_solver.basic_solve import solve_tsp_basic
 from tsp_solver_clustering.tsp_solver.tsp_af_solver import solve_tsp_affinity_propagation
+from tsp_solver_clustering.tsp_solver.tsp_ms_solver import solve_mean_shift
 
 
 def main():
@@ -28,8 +29,10 @@ def run_and_evaluate():
         # As random factors are involved repeat experiments a couple of times
         best_routes_base = []
         best_routes_af = []
+        best_routes_ms = []
         base_times = []
         af_times = []
+        ms_times = []
         for i in range(10):
             # Base solution
             start_time = timeit.default_timer()
@@ -45,14 +48,23 @@ def run_and_evaluate():
             best_routes_af.append(Fitness(route=best_route_af).route_distance())
             af_times.append(af_time)
 
+            # MS solution
+            start_time = timeit.default_timer()
+            best_route_ms = solve_mean_shift(problem)
+            ms_time = timeit.default_timer() - start_time
+            best_routes_ms.append(Fitness(route=best_route_ms).route_distance())
+            ms_times.append(ms_time)
+
         results.append(
             {
                 "problem name": problem.name,
                 "optimal solution": find_route_optimal_route_length(problem),
                 "baseline tour length": mean(best_routes_base),
-                "clustering tour length": mean(best_routes_af),
+                "af clustering tour length": mean(best_routes_af),
+                "ms clustering tour length": mean(best_routes_ms),
                 "baseline algorithm time": mean(base_times),
-                "clustering algorithm time": mean(af_times),
+                "af clustering algorithm time": mean(af_times),
+                "ms clustering algorithm time": mean(ms_times),
             }
         )
     # Create dataframe and safe results

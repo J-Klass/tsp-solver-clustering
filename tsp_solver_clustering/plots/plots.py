@@ -90,3 +90,32 @@ def plot_af_clustering_results(X, n_clusters_, labels, cluster_centers_indices):
 
     plt.title("Estimated number of clusters: %d" % n_clusters_)
     plt.show()
+
+
+def plot_ms_results(X, n_clusters_, labels, cluster_centers):
+    """ Plotting the results of the mean shift clustering algorithm
+
+    :param X: Matrix of points
+    :param n_clusters_: number of clusters
+    :param labels: labels of clusters
+    :param cluster_centers: coordinates of cluster centers
+    :return: none
+    """
+    plt.figure(1)
+    plt.clf()
+
+    colors = cycle("bgrcmykbgrcmykbgrcmykbgrcmyk")
+    for k, col in zip(range(n_clusters_), colors):
+        my_members = labels == k
+        cluster_center = cluster_centers[k]
+        plt.plot(X[my_members, 0], X[my_members, 1], col + ".")
+        plt.plot(
+            cluster_center[0],
+            cluster_center[1],
+            "o",
+            markerfacecolor=col,
+            markeredgecolor="k",
+            markersize=14,
+        )
+    plt.title("Estimated number of clusters: %d" % n_clusters_)
+    plt.show()
