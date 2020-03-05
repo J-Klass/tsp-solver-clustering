@@ -89,13 +89,13 @@ def solve_and_merge_subproblems_naive(subproblems, plot):
         else:
             best_route.extend(tsp_subproblem.cities)
 
-    # Finally run GA for complete route
-    best_route = genetic_algorithm(
-        population=best_route,
-        pop_size=100,
-        elite_size=20,
-        mutation_rate=0.01,
-        generations=100,
-    )
+    # # Finally run GA for complete route
+    # best_route = genetic_algorithm(
+    #     population=best_route,
+    #     pop_size=100,
+    #     elite_size=20,
+    #     mutation_rate=0.01,
+    #     generations=100,
+    # )
 
     return best_route
