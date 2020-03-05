@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Solving TSP's using Clustering</h1>
-  <img src="result.gif" width="100%" alt="result.gif">
+  <img src="result.gif" width="70%" alt="result.gif">
 </div>
 
 ### Introduction
