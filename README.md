@@ -13,10 +13,10 @@ In this project, clustering techniques (affinity propagation & mean shift) are u
 To test the approach problems from the following academic dataset were used. [(Data)](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp/)
 
 <p align="center">
-  <img src="execution_times.png" width="250" />
+  <img src="execution_times.png" width="450" />
 </p>
 <p align="center">
-  <img src="tour_lengths.png" width="250" /> 
+  <img src="tour_lengths.png" width="450" /> 
 </p>
 
 
