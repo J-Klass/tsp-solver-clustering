@@ -1,6 +1,9 @@
+import itertools
+import multiprocessing
 from operator import itemgetter
 
 import numpy as np
+from joblib import Parallel, delayed
 from sklearn.cluster import AffinityPropagation
 
 from tsp_solver_clustering.genetic_algorithm.genetic_algorithm import genetic_algorithm
@@ -51,7 +54,7 @@ def solve_tsp_affinity_propagation(tsp_problem, plot=False):
 
 
 def solve_and_merge_subproblems_naive(subproblems, plot):
-    """ Solving and merging the subproblems
+    """ Solving and merging the subproblems in parallel
 
     :param subproblems: Subproblem
     :param plot: yes/no plotting
@@ -72,30 +75,35 @@ def solve_and_merge_subproblems_naive(subproblems, plot):
     if plot:
         plot_route(best_route_centers)
 
-    # Find the best solutions in the subproblems and connect them
-    best_route = []
-    for center_city in best_route_centers:
-        tsp_subproblem = next((x for x in subproblems if x.center == center_city), None)
-        if not len(tsp_subproblem.cities) == 1:
-            best_route.extend(
-                genetic_algorithm(
-                    population=tsp_subproblem.cities,
-                    pop_size=100,
-                    elite_size=20,
-                    mutation_rate=0.01,
-                    generations=50,
-                )
-            )
-        else:
-            best_route.extend(tsp_subproblem.cities)
-
-    # # Finally run GA for complete route
-    # best_route = genetic_algorithm(
-    #     population=best_route,
-    #     pop_size=100,
-    #     elite_size=20,
-    #     mutation_rate=0.01,
-    #     generations=100,
-    # )
-
+    # Adding multiprocessing
+    num_cores = multiprocessing.cpu_count()
+    # Find the best solutions in parallel in the subproblems and connect them
+    best_route = Parallel(n_jobs=num_cores)(
+        delayed(solve_subproblem)(i, subproblems) for i in best_route_centers
+    )
+    best_route = list(itertools.chain(*best_route))
     return best_route
+
+
+def solve_subproblem(center_city, subproblems):
+    """Finds the solution of a subproblem
+
+    :param center_city: Id of the city in the center
+    :param subproblems: List of subproblems
+    :return: best route
+    """
+    best_sub_route = []
+    tsp_subproblem = next((x for x in subproblems if x.center == center_city), None)
+    if not len(tsp_subproblem.cities) == 1:
+        best_sub_route.extend(
+            genetic_algorithm(
+                population=tsp_subproblem.cities,
+                pop_size=100,
+                elite_size=20,
+                mutation_rate=0.01,
+                generations=50,
+            )
+        )
+    else:
+        best_sub_route.extend(tsp_subproblem.cities)
+    return best_sub_route
